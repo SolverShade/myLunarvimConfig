@@ -1,0 +1,98 @@
+-- Read the docs: https://www.lunarvim.org/docs/configuration
+-- Example configs: https://github.com/LunarVim/starter.lvim
+-- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
+-- Forum: https://www.reddit.com/r/lunarvim/
+-- Discord: https://discord.com/invite/Xb9B4Ny
+--
+
+lvim.plugins = {
+{ "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
+{'mfussenegger/nvim-dap-python'},
+  {
+  "christoomey/vim-tmux-navigator",
+  cmd = {
+    "TmuxNavigateLeft",
+    "TmuxNavigateDown",
+    "TmuxNavigateUp",
+    "TmuxNavigateRight",
+    "TmuxNavigatePrevious",
+  },
+  keys = {
+    { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+    { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+    { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+    { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+    { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+  },
+}
+}
+
+
+vim.cmd([[colorscheme gruvbox]])
+lvim.background = "dark" -- or "light" for light mode
+
+-- Default options:
+require("gruvbox").setup({
+  terminal_colors = true, -- add neovim terminal colors
+  undercurl = true,
+  underline = true,
+  bold = true,
+  italic = {
+    strings = true,
+    emphasis = true,
+    comments = true,
+    operators = false,
+    folds = true,
+  },
+  strikethrough = true,
+  invert_selection = false,
+  invert_signs = false,
+  invert_tabline = false,
+  invert_intend_guides = false,
+  inverse = true, -- invert background for search, diffs, statuslines and errors
+  contrast = "", -- can be "hard", "soft" or empty string
+  palette_overrides = {},
+  overrides = {},
+  dim_inactive = false,
+  transparent_mode = false,
+})
+
+lvim.colorscheme = "gruvbox"
+lvim.builtin.project.patterns = { ">Projects", ".git" } -- defaults include other VCSs, Makefile, package.json
+
+-- Normal mode: <leader>d to delete without yanking
+lvim.keys.normal_mode["<leader>d"] = '"_d'
+
+-- Visual mode: <leader>d to delete without yanking
+lvim.keys.visual_mode["<leader>d"] = '"_d'
+
+-- Visual mode: <leader>p to paste over selection without yanking the deleted text
+lvim.keys.visual_mode["<leader>p"] = '"_dP'
+
+--require'lspconfig'.tsserver.setup{}
+require'lspconfig'.vuels.setup{}
+require'lspconfig'.vimls.setup{}
+require'lspconfig'.bashls.setup{}
+require'lspconfig'.csharp_ls.setup{}
+
+local dap = require("dap")
+
+dap.adapters.coreclr = {
+  type = 'executable',
+  command = '/home/powerbox/bin/netcoredbg/netcoredbg',
+  args = {'--interpreter=vscode'}
+}
+
+dap.configurations.cs = {
+  {
+    type = "coreclr",
+    name = "launch - netcoredbg",
+    request = "launch",
+    program = function()
+        return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+    end,
+  },
+}
+
+require("dap-python").setup("python")
+
