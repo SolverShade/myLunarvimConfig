@@ -9,6 +9,7 @@ lvim.plugins = {
   { 'mfussenegger/nvim-dap-python' },
   { 'jbyuki/one-small-step-for-vimkind' },
   { 'davepinto/virtual-column.nvim' },
+  { 'github/copilot.vim' },
   {
     "christoomey/vim-tmux-navigator",
     cmd = {
@@ -25,6 +26,19 @@ lvim.plugins = {
       { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" },  -- for curl, log wrapper
+    },
+    opts = {
+      debug = true, -- Enable debugging
+      -- See Configuration section for rest
+    },
+    -- See Commands section for default commands if you want to lazy load on them
   },
 }
 
@@ -76,6 +90,11 @@ require 'lspconfig'.vuels.setup {}
 require 'lspconfig'.vimls.setup {}
 require 'lspconfig'.bashls.setup {}
 require 'lspconfig'.csharp_ls.setup {}
+
+require("CopilotChat").setup {
+  debug = true, -- Enable debugging
+  -- See Configuration section for rest
+}
 
 local dap = require("dap")
 
