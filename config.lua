@@ -91,11 +91,6 @@ require 'lspconfig'.vimls.setup {}
 require 'lspconfig'.bashls.setup {}
 require 'lspconfig'.csharp_ls.setup {}
 
-require("CopilotChat").setup {
-  debug = true, -- Enable debugging
-  -- See Configuration section for rest
-}
-
 local dap = require("dap")
 
 dap.adapters["local-lua"] = {
@@ -143,8 +138,24 @@ dap.configurations.cs = {
     name = "launch - netcoredbg",
     request = "launch",
     program = function()
-      return vim.fn.input('Path to dll ', vim.fn.getcwd() .. '/', 'file')
-    end,
+      if vim.fn.fnamemodify(vim.fn.getcwd(), ":t") == 'build' then
+        vim.api.nvim_command('cd .. ')
+      end
+
+      vim.api.nvim_command('!dotnet build . --output ./build')
+
+      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+
+      if vim.fn.fnamemodify(vim.fn.getcwd(), ":t") ~= 'build' then
+        vim.api.nvim_command('cd build')
+      end
+      if vim.fn.fnamemodify(vim.fn.getcwd() .. '/' .. project_name ..
+            '.dll', ":t") ~= nil then
+        return vim.fn.getcwd() .. '/' .. project_name .. '.dll'
+      else
+        return vim.fn.input('Path to dll ', vim.fn.getcwd() .. '/', 'file')
+      end
+    end
   },
 }
 
