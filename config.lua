@@ -48,8 +48,10 @@ lvim.leader = ";"
 --no cut delete
 lvim.keys.normal_mode["dd"] = '"_dd'
 lvim.keys.visual_mode["dd"] = '"_d'
-vim.keymap.set('n', 'dd', '"_dd', { noremap = true, silent = true })
-vim.keymap.set('x', 'dd', '"_d', { noremap = true, silent = true })
+lvim.keys.normal_mode["d$"] = '"_d$'
+lvim.keys.visual_mode["d$"] = '"_d$'
+lvim.keys.normal_mode["dw"] = '"_dw'
+lvim.keys.visual_mode["dw"] = '"_dw'
 
 vim.api.nvim_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
 
