@@ -151,6 +151,7 @@ dap.configurations.cs = {
       if vim.fn.fnamemodify(vim.fn.getcwd(), ":t") ~= 'build' then
         vim.api.nvim_command('cd build')
       end
+
       if vim.fn.fnamemodify(vim.fn.getcwd() .. '/' .. project_name ..
             '.dll', ":t") ~= nil then
         return vim.fn.getcwd() .. '/' .. project_name .. '.dll'
@@ -219,4 +220,4 @@ lvim.keys.normal_mode["p"] = ":lua Paste_and_trim()<CR>"
 vim.api.nvim_create_user_command('Trim', function() Trim() end, {})
 
 --formats
-lvim.format_on_save = true
+--lvim.format_on_save = true
