@@ -15,6 +15,16 @@ lvim.plugins = {
   { "ChristianChiarulli/swenv.nvim" },
   { "stevearc/dressing.nvim" },
   {
+    "FeiyouG/commander.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" }
+  },
+  {
+    'VonHeikemen/fine-cmdline.nvim',
+    dependencies = {
+      { 'MunifTanjim/nui.nvim' }
+    }
+  },
+  {
     "christoomey/vim-tmux-navigator",
     cmd = {
       "TmuxNavigateLeft",
@@ -85,11 +95,12 @@ lvim.plugins = {
         -- log_console_level = vim.log.levels.ERROR,
       })
     end,
-  }
+  },
 }
 
 
 lvim.leader = ";"
+vim.api.nvim_set_keymap('n', ':', '<cmd>FineCmdline<CR>', { noremap = true })
 
 --no cut delete
 lvim.keys.normal_mode["dd"] = '"_dd'
